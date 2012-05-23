@@ -16,18 +16,10 @@
 
 package com.github.mobile.gauges.ui;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.github.mobile.gauges.IntentConstants.GAUGE;
-import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
-import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.accounts.AccountsException;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.widget.ListView;
-
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
@@ -36,19 +28,24 @@ import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
+import roboguice.inject.InjectExtra;
+import roboguice.util.Ln;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import roboguice.inject.InjectExtra;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.github.mobile.gauges.IntentConstants.GAUGE;
+import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
+import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
+import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 
 /**
  * Fragment to display list of recent traffic
  */
 public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
-
-    private static final String TAG = "TLF";
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -95,10 +92,10 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                     if (latest != null)
                         return latest.getRecentDays();
                 } catch (IOException e) {
-                    Log.d(TAG, "Exception getting gauge", e);
+                    Ln.d("Exception getting gauge", e);
                     showError(string.error_loading_traffic);
                 } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting gauge", e);
+                    Ln.d("Exception getting gauge", e);
                     showError(string.error_loading_traffic);
                 }
                 return Collections.emptyList();

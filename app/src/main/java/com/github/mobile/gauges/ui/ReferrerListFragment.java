@@ -16,36 +16,34 @@
 
 package com.github.mobile.gauges.ui;
 
-import static android.content.Intent.ACTION_VIEW;
-import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
-import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.accounts.AccountsException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Referrer;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
+import roboguice.util.Ln;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static android.content.Intent.ACTION_VIEW;
+import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
+import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
+import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
+
 /**
  * Fragment to display a list of {@link Referrer} instances
  */
 public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
-
-    private static final String TAG = "RLF";
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -77,10 +75,10 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
                 try {
                     return serviceProvider.getService().getReferrers(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
-                    Log.d(TAG, "Exception getting referrers", e);
+                    Ln.d("Exception getting referrers", e);
                     showError(string.error_loading_referrers);
                 } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting referrers", e);
+                    Ln.d("Exception getting referrers", e);
                     showError(string.error_loading_referrers);
                 }
                 return Collections.emptyList();

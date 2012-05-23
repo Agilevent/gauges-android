@@ -16,19 +16,6 @@
 
 package com.github.mobile.gauges.authenticator;
 
-import static android.R.layout.simple_dropdown_item_1line;
-import static android.accounts.AccountManager.ERROR_CODE_CANCELED;
-import static android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE;
-import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
-import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static com.github.kevinsawicki.http.HttpRequest.post;
-import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
-import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
@@ -41,30 +28,33 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import android.widget.TextView.OnEditorActionListener;
-
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
 import com.github.mobile.gauges.ui.ToastUtil;
+import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectView;
+import roboguice.util.Ln;
+import roboguice.util.RoboAsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.activity.RoboFragmentActivity;
-import roboguice.inject.InjectView;
-import roboguice.util.RoboAsyncTask;
+import static android.R.layout.simple_dropdown_item_1line;
+import static android.accounts.AccountManager.*;
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+import static com.github.kevinsawicki.http.HttpRequest.post;
+import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
+import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
 
 /**
  * Activity to authenticate the user against gaug.es
@@ -90,8 +80,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
      * PARAM_AUTHTOKEN_TYPE
      */
     public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
-
-    private static final String TAG = "GaugesAuthActivity";
 
     private AccountManager accountManager;
 
@@ -243,7 +231,7 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         authenticationTask = new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
                 HttpRequest request = post(URL_AUTH).form("email", email).form("password", password);
-                Log.d(TAG, "response=" + request.code());
+                Ln.d("response=" + request.code());
                 return request.ok();
             }
 
@@ -342,7 +330,7 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
             else
                 finishConfirmCredentials(true);
         else {
-            Log.e(TAG, "onAuthenticationResult: failed to authenticate");
+            Ln.e("onAuthenticationResult: failed to authenticate");
             if (requestNewAccount)
                 ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, string.message_auth_failed_new_account);
             else

@@ -16,27 +16,25 @@
 
 package com.github.mobile.gauges.authenticator;
 
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYPE;
-import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AccountsException;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.github.mobile.gauges.core.GaugesService;
 import com.google.inject.Inject;
+import roboguice.util.Ln;
 
 import java.io.IOException;
+
+import static android.accounts.AccountManager.KEY_AUTHTOKEN;
+import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYPE;
+import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 
 /**
  * Bridge class that obtains a gaug.es API key for the currently configured account
  */
 public class ApiKeyProvider {
-
-    private static final String TAG = "AKP";
 
     @Inject
     private Activity activity;
@@ -56,7 +54,7 @@ public class ApiKeyProvider {
 
         Bundle result = accountManagerFuture.getResult();
         String authToken = result.getString(KEY_AUTHTOKEN);
-        Log.d(TAG, "Got authToken " + (authToken == null ? null : authToken.substring(0, 2) + "…"));
+        Ln.d("Got authToken " + (authToken == null ? null : authToken.substring(0, 2) + "…"));
         return authToken;
     }
 }

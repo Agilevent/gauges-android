@@ -16,17 +16,13 @@
 
 package com.github.mobile.gauges.ui;
 
-import static android.content.Intent.ACTION_VIEW;
-import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import android.accounts.AccountsException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
@@ -36,17 +32,19 @@ import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
+import roboguice.util.Ln;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static android.content.Intent.ACTION_VIEW;
+import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
+
 /**
  * Fragment to load page content information for a {@link Gauge}
  */
 public class ContentListFragment extends ListLoadingFragment<PageContent> {
-
-    private static final String TAG = "CLA";
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -79,10 +77,10 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
                 try {
                     return serviceProvider.getService().getContent(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
-                    Log.d(TAG, "Exception getting page content", e);
+                    Ln.d("Exception getting page content", e);
                     showError(string.error_loading_contents);
                 } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting page content", e);
+                    Ln.d("Exception getting page content", e);
                     showError(string.error_loading_contents);
                 }
                 return Collections.emptyList();

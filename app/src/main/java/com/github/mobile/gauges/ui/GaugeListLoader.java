@@ -26,6 +26,7 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
+import roboguice.util.Ln;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -35,8 +36,6 @@ import java.util.List;
  * Class to load a list of gauges
  */
 public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
-
-    private final static String TAG = "GLL";
 
     private final Activity activity;
 
@@ -61,7 +60,7 @@ public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
      * @param e
      */
     protected void showError(final Exception e) {
-        Log.d(TAG, "Exception getting gauges", e);
+        Ln.d("Exception getting gauges", e);
         toastOnUiThread(activity, activity.getString(string.error_loading_gauges));
     }
 

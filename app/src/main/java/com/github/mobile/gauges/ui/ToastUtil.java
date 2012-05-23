@@ -16,18 +16,17 @@
 
 package com.github.mobile.gauges.ui;
 
-import static android.widget.Toast.LENGTH_LONG;
 import android.app.Activity;
 import android.app.Application;
-import android.util.Log;
 import android.widget.Toast;
+import roboguice.util.Ln;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Utilities for displaying toast notifications
  */
 public class ToastUtil {
-
-    private final static String TAG = "ToastUtil";
 
     /**
      * Shows a toast to the user - can be called from any thread, toast will be displayed using the UI-thread.
@@ -41,7 +40,7 @@ public class ToastUtil {
      * @param message
      */
     public static void toastOnUiThread(Activity activity, final String message) {
-        Log.d(TAG, "Will display toast : " + message);
+        Ln.d("Will display toast : " + message);
         final Application application = activity.getApplication();
         activity.runOnUiThread(new Runnable() {
             public void run() {

@@ -16,29 +16,21 @@
 
 package com.github.mobile.gauges.authenticator;
 
-import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
-import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
-import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
-import static com.github.mobile.gauges.authenticator.GaugesAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE;
-import android.accounts.AbstractAccountAuthenticator;
-import android.accounts.Account;
-import android.accounts.AccountAuthenticatorResponse;
-import android.accounts.AccountManager;
-import android.accounts.NetworkErrorException;
+import android.accounts.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.github.mobile.gauges.core.Client;
 import com.github.mobile.gauges.core.GaugesService;
+import roboguice.util.Ln;
 
 import java.io.IOException;
 
-class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
+import static android.accounts.AccountManager.*;
+import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
+import static com.github.mobile.gauges.authenticator.GaugesAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE;
 
-    private static final String TAG = "GaugesAccountAuth";
+class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String DESCRIPTION_CLIENT = "Gaug.es for Android";
 
@@ -78,7 +70,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType,
             Bundle options) throws NetworkErrorException {
-        Log.d(TAG, "getAuthToken() called : authTokenType=" + authTokenType);
+        Ln.d("getAuthToken() called : authTokenType=" + authTokenType);
         String password = AccountManager.get(mContext).getPassword(account);
         Client client;
         try {
@@ -90,7 +82,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
             throw new NetworkErrorException(e);
         }
         String apiKey = client.getKey();
-        Log.d(TAG, "getAuthToken() called : apiKey=" + (apiKey == null ? null : apiKey.substring(0, 2) + "…"));
+        Ln.d("getAuthToken() called : apiKey=" + (apiKey == null ? null : apiKey.substring(0, 2) + "…"));
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
         bundle.putString(KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);

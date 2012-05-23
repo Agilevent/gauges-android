@@ -19,25 +19,27 @@ package com.github.mobile.gauges.authenticator;
 /**
  * Constants for authenticating
  */
-public interface AuthConstants {
+public class AuthConstants {
+
+    private AuthConstants() {}
 
     /**
      * Account type id
      */
-    String GAUGES_ACCOUNT_TYPE = "com.github.gauges";
+    public static final String GAUGES_ACCOUNT_TYPE = "com.github.gauges";
 
     /**
      * Account name
      */
-    String GAUGES_ACCOUNT_NAME = "Gaug.es";
+    public static final String GAUGES_ACCOUNT_NAME = "Gaug.es";
 
     /**
      * Provider id
      */
-    String GAUGES_PROVIDER_AUTHORITY = "com.github.gauges.sync";
+    public static final String GAUGES_PROVIDER_AUTHORITY = "com.github.gauges.sync";
 
     /**
      * Auth token type
      */
-    String AUTHTOKEN_TYPE = GAUGES_ACCOUNT_TYPE;
+    public static final String AUTHTOKEN_TYPE = GAUGES_ACCOUNT_TYPE;
 }
